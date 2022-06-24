@@ -5,11 +5,12 @@
     <div>
         <h1>Sign Up</h1>
 
-        <form action="@{signin}" method="post">
-            <div><input type="email" name="email" placeholder="email" autofocus required></div>
-            <div><input type="password" name="pw" placeholder="password" required></div>
+        <form action="signup" method="post">
+            <div><input type="email" name="email" placeholder="Email" autofocus required></div>
+            <div><input type="password" name="pw" placeholder="Password" required></div>
+            <div><input type="text" name="nm" placeholder="Name" required></div>
             <div>
-                <input type="submit" value="로그인">
+                <input type="submit" value="Sign Up">
             </div>
         </form>
         <div>

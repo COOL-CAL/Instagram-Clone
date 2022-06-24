@@ -9,8 +9,7 @@
     }
 
     function getMethod() {
-        $headers = getallheaders();
-        return $headers['Accept'];
+        return $_SERVER['REQUEST_METHOD'];
     }
 
     function isGetOne() {
@@ -19,4 +18,8 @@
             return $urlPaths[2];
         }
         return false;
+    }
+
+    function getParam($key) {
+        return isset($_GET[$key]) ? $_GET[$key] : "";
     }

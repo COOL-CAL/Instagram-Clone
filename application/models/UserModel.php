@@ -23,9 +23,9 @@ class UserModel extends Model {
         $sql = "SELECT * FROM t_user
                 WHERE email = :email";
         $stmt = $this->pdo->prepare($sql);
-        $stmt->bindValue(":email", $param["email"]);        
+        $stmt->bindValue(":email", $param["email"]);      
         $stmt->execute();
-        return $stmt->fech(PDO::FETCH_OBJ);
+        return $stmt->fetch(PDO::FETCH_OBJ);
     }
     
 }
