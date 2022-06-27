@@ -3,5 +3,6 @@
     use PDO;
 
     class FeedModel extends Model {
-    
+        public function index() {
+        }
     }

@@ -2,14 +2,16 @@
     <div id="globalConst">
         <div class="d-flex flex-column flex-md-row align-items-center">
             <div class="d-inline-flex flex-grow-1 flex-shrink-0">
-                <a href="/feed/index">Home</a>
+                <a href="/feed/index">
+                    <svg aria-label="home" class="_8-yf5 " color="#262626" fill="#262626" height="24" role="img" viewBox="0 0 24 24" width="24"> <path d="M22 23h-6.001a1 1 0 01-1-1v-5.455a2.997 2.997 0 10-5.993 0V22a1 1 0 01-1 1H2a1 1 0 01-1-1V11.543a1.002 1.002 0 01.31-.724l10-9.543a1.001 1.001 0 011.38 0l10 9.543a1.002 1.002 0 01.31.724V22a1 1 0 01-1 1z"></path></svg>
+                </a>
             </div>
             <div class="d-inline-flex flex-grow-1 flex-shrink-0">
             </div>
             <div class="d-inline-flex flex-grow-1 flex-shrink-0">
                 <nav class="d-flex flex-grow-1 flex-column flex-md-row justify-content-end">
                     <div class="d-inline-flex me-3">
-                        <a href="#" id="btnNewFeedModal" data-bs_toggle="modal" data-bs-target="#newFeedModal">
+                        <a href="#" id="btnNewFeedModal" data-bs-toggle="modal" data-bs-target="#newFeedModal">
                         <svg aria-label="새로운 게시물" class="_8-yf5 " color="#726022" fill="#262626" height="24" role="img" viewBox="0 0 24 24" width="24"><path d="M2 12v3.45c0 2.849.698 4.005 1.606 4.944.94.909 2.098 1.608 4.946 1.608h6.896c2.848 0 4.006-.7 4.946-1.608C21.302 19.455 22 18.3 22 15.45V8.552c0-2.849-.698-4.006-1.606-4.945C19.454 2.7 18.296 2 15.448 2H8.552c-2.848 0-4.006.699-4.946 1.607C2.698 4.547 2 5.703 2 8.552z" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path><line fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" x1="6.545" x2="17.455" y1="12.001" y2="12.001"></line><line fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" x1="12.003" x2="12.003" y1="6.545" y2="17.455"></line></svg>
                         </a>
                     </div>
@@ -21,12 +23,11 @@
 
                     <div class="d-line-flex dropdown">
                         <a href="#" role="button" id="navDropdownMenLink" data-bs-toggle="dropdown" aria-expanded="false" class="header_profile">
-                            <div class="circleimg h30 w30">
-                                <img src="/static/img/나의 pk값/나의mainimg값" onerror="this.onerror=null;this.src='/static/img/profile/profile.png'">
+                            <div class="circleimg h100 w100">
+                                <!-- <img src="/static/img/나의 pk값/나의mainimg값" onerror="this.onerror=null;this.src='/static/img/profile/profile.png'"> -->
                                 <!--                 세션에서 값 가져오기 -->
                                     
-                                <img src="/static/img/profile/<?=getMainImgSrc()?>" onerror="this.onerror=null;this.src='/static/img/profile/profile.png'">
-                                <?php print getMainImgSrc(); ?>
+                                <img src="/static/img/profile/<?=getMainImgSrc()?>" onerror="this.onerror=null;this.src='/static/img/profile/sad.jpg'">
                             </div>
                         </a>
                         <ul class="dropdown-menu" aria-labelledby="navDropdownMenuLink">
@@ -45,3 +46,20 @@
         </div>
     </div>
 </header>
+
+<!-- New feed create modal -->
+<div class="modal fade" id="newFeedModal" tabindex="-1" aria-labelledby="newFeedModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-xl">
+        <div class="modal-content" id="newFeedModalContent">
+            <div class="modal-header">
+                <h5 class="modal-title" id="newFeedModalLabel">New feed post</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body" id="id-modal-body"></div>
+        </div>
+
+        <form class="d-none">
+            <input type="file" accept="image/*" name="imgs" multiple>
+        </form>
+    </div>
+</div>
