@@ -2,6 +2,7 @@
 namespace application\controllers;
 
 class UserController extends Controller {
+    //로그인
     public function signin() {
         switch(getMethod()) {
             case _GET:
@@ -14,6 +15,27 @@ class UserController extends Controller {
                     "pw" => $_POST["pw"]
                 ];
 
+                //GET(삭제)
+                //값이 쿼리스트링으로 전달
+                //= 기준 왼쪽이 key값, 오른쪽이 value값
+
+                //POST(등록, 수정)
+                //값이 body에 담겨져서 전달
+
+                //값 저장하는 방식: 쿼리스트링, 배열
+                //배열 -> sequence 유무
+                //ex) $arr=[10, 20, 30]; <-있을 유.
+                //    쿼리스트링 <-없을 무.
+
+                //ArrayList -> 배열 스타일
+                //1. 만들기 쉽고,
+                //2. 용량이 적고,
+                //3. 셀렉트 속도가 빠르다.
+
+                //LinkedList -> node 스타일
+                //1. 수정이 쉽다.
+
+
                 $dbUser = $this->model->selUser($param);
 
                 // if(!$dbUser) { //아이디 없음
@@ -23,17 +45,19 @@ class UserController extends Controller {
                 // }
 
                 if(!$dbUser || !password_verify($param["pw"], $dbUser->pw)) {
-                    return "redirect:signin?email=$email&err";
+                    return "redirect:signin?email={$email}&err";
                 }
 
-                // $this->flash(_LOGINUSER, $dbUser);
+                $dbUser->pw = null;
+                $dbUser->regdt = null;
+                $this->flash(_LOGINUSER, $dbUser);
 
                 return "redirect:/feed/index";
                 }
 
         }
     
-
+    //회원가입
     public function signup() {
         // if(getMethod() === _GET) {
         //     return "user/signup.php";
@@ -54,5 +78,10 @@ class UserController extends Controller {
                 $this->model->insUser($param);
                 return "redirect:signin";
         }
+    }
+
+    public function logout() {
+        $this->flash(_LOGINUSER);
+        return "redirect:/user/signin";
     }
 }
