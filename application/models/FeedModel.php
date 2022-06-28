@@ -16,4 +16,15 @@
             $stmt->execute();
             return $this->pdo->lastInsertId();
         }
+
+        public function insFeedimg(&$param) {
+            $sql = "INSERT INTO t_feed_img
+                    (ifeed, img)
+                    VALUES
+                    (:ifeed, :img)";
+            $stmt = $this->pdo->prepare($sql);
+            $stmt->bindValue(":ifeed", $param["ifeed"]);
+            $stmt->bindValue(":img", $param["img"]);
+            $stmt->execute();
+        }
     }
