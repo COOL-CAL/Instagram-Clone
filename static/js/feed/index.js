@@ -79,6 +79,7 @@
         itemLength: 0,
         currentPage: 1,
         loadingElem: document.querySelector('.loading'),
+        containerElem: document.querySelector('#item_container'),
         
         getFeedList: function() {
             this.showLoading();
@@ -89,8 +90,9 @@
             fetch('/feed/rest' + encodeQueryString(param))
             .then(res => res.json())
             .then(list => {
-                console.log(list);
-                this.hideLoading();
+                // console.log(list);
+                this.makeFeedList(list);
+
             })
             .catch(e => {
                 console.error(e);
@@ -102,15 +104,38 @@
         },
 
         makeFeedList: function(list) {
-            if(list.length !==0) {
+            if(list.length !== 0) {
                 list.forEach(item => {
-                    this.makeFeedItem(item);
+                    const divItem = this.makeFeedItem(item);
+                    this.containerElem.appendChild(divItem);
                 });
             }
             this.hideLoading();
         },
-        makeFeedList: function(item) {
+        makeFeedItem: function(item) {
             console.log(item);
+            const divContainer = document.createElement('div');
+            // divContainer.innerText = item.ctnt; //ex
+            divContainer.className = 'item mt-3 mb-3';
+
+            const divTop = document.createElement('div');
+            divTop.className = 'd-flex flex-row ps-3 pe-3';
+            divContainer.appendChild(divTop);
+            
+            const regDtInfo = getDateTimeInfo(item.regdt);
+            const writerImg = `<img src='/static/img/profile/${item.iuser}/${item.mainimg}'
+                onerror='this.error=null;this.src="/static/img/profile/profile.png"' class= "w100">`;
+
+            divTop.innerHTML = `
+                <div class="d-flex flex-column justify-content-center">
+                    <div class="circleimg h40 w40">${writerImg}</div>
+                </div>
+                <div class="p-3 flex-grow-1">
+                    <div><span class="pointer" onclick="moveToProfile(${item.iuser});">${item.writer}</span> - ${regDtInfo}</div>
+                    <div>${item.location === null ? '' : item.location}</div>
+                </div>
+            `;
+            return divContainer;
         },
 
         showLoading: function() {

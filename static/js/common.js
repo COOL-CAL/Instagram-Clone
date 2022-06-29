@@ -7,36 +7,22 @@ function encodeQueryString(params) {
                             ).join("&")
             : "";
 }
-// const feedObj = {
-//     limit: 20,
-//     itemLength: 0,
-//     currentPage: 1,
-//     loadingElem: document.querySelector('.loading'), // index.php class loading
+function getDateTimeInfo(dt) {
+    const nowDt = new Date();
+    const targetDt = new Date(dt);
 
-//     getFeedList: function () {
-//         this.showLoading();
-//         const param = {
-//             page: this.currentPage++
-//         }
-//         fetch('/feed/rest' + encodeQueryString(param))
-//         .then(res => res.json())
-//         .then(list => {
-//             console.log(list);
-//             this.hideLoading();
-//         })
-//         .catch(e => {
-//             console.error(e);
-//             this.hideLoading();
-//         })
-//         // const parent = this;
-//         // setTimeout(() => {
-//         //     parent.hideLoading();
-//         // }, 1000);
-//     },
+    const nowDtSec = parseInt(nowDt.getTime() / 1000);
+    const targetDtSec = parseInt(targetDt.getTime() / 1000);
 
-//     showLoading: function () { this.loadingElem.classList.remove('d-none'); },
-//     hideLoading: function () { this.loadingElem.classList.add('d-none'); }
-
-// }
-
-// feedObj.getFeedList();
+    const diffSec = nowDtSec - targetDtSec;
+    if(diffSec < 120) {
+        return '1분 전';
+    } else if(diffSec < 3600) { //분 단위 (60 * 60)
+        return `${parseInt(diffSec / 60)}분 전`;
+    } else if(diffSec < 86400) { //시간 단위 (60 * 60 * 24)
+        return `${parseInt(diffSec / 3600)}시간 전`;
+    } else if(diffSec < 2592000) { //일 단위 (60 * 60 * 24 * 30)
+        return `${parseInt(diffSec / 86400)}일 전`;
+    }
+    return targetDt.toLocaleString();
+}
