@@ -73,4 +73,56 @@
             body.appendChild(selFromComBtn);
         });
     }
+
+    const feedObj = {
+        limit: 20,
+        itemLength: 0,
+        currentPage: 1,
+        loadingElem: document.querySelector('.loading'),
+        
+        getFeedList: function() {
+            this.showLoading();
+
+            const param = {
+                page: this.currentPage++
+            }
+            fetch('/feed/rest' + encodeQueryString(param))
+            .then(res => res.json())
+            .then(list => {
+                console.log(list);
+                this.hideLoading();
+            })
+            .catch(e => {
+                console.error(e);
+                this.hideLoading();
+            });
+            // setTimeout(() => {
+            //     this.hideLoading();
+            // }, 1000);
+        },
+
+        makeFeedList: function(list) {
+            if(list.length !==0) {
+                list.forEach(item => {
+                    this.makeFeedItem(item);
+                });
+            }
+            this.hideLoading();
+        },
+        makeFeedList: function(item) {
+            console.log(item);
+        },
+
+        showLoading: function() {
+            this.loadingElem.classList.remove('d-none');
+        },
+        hideLoading: function() {
+            this.loadingElem.classList.add('d-none');
+        }
+    }
+    feedObj.getFeedList();
+
+
+    
+
 })();
