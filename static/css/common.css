@@ -24,6 +24,7 @@ table { border-collapse: collapse; border-spacing: 0; }
 .h30 { height: 30px; }
 .h40 { height: 40px; }
 .h100 { height: 100px; }
+.h150 { width: 150px; }
 .h300 { height: 300px; }
 .h600 { height: 600px; }
 .header { z-index: 10; border-bottom: 1px solid #dfdfdf; position: fixed; top:0; width: 100%; background-color: #fff; }
@@ -38,10 +39,13 @@ table { border-collapse: collapse; border-spacing: 0; }
 .rem1_5 { font-size: 1.5rem; }
 .over_y_a { overflow-y: auto; }
 
+.size_box_100 { position: relative; height: 100px; }
+
 .w24 { width: 24px; }
 .w30 { width: 30px; }
 .w40 { width: 40px; }
 .w100 { width: 100px; }
+.w150 { width: 150px; }
 .w250 { width: 250px; }
 .w300 { width: 300px; }
 .w614 { width: 614px; }

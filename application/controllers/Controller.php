@@ -3,7 +3,10 @@ namespace application\controllers;
 
 class Controller {    
     protected $model;
-    private static $needLoginUrlArr = ["feed"];
+    private static $needLoginUrlArr = [
+        "feed",
+        "user/feedwin"
+    ];
 
     public function __construct($action, $model) {    
         if(!isset($_SESSION)) {

@@ -5,6 +5,5 @@ main {
 .fas { color: #ea4040;}
 /* 네이밍을 아래 w100p_mw614로 변경 .item_container_parent { width: 100%; max-width: 614px; } */
 .w100p_mw614 { width: 100%; max-width: 614px; }
-.size_box_100 { position: relative; height: 100px; }
 #item_container > .item { border: 1px solid #dfdfdf; border-radius: 8px; background-color: #fff;
 font-family: var(--font) }
