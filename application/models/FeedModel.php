@@ -26,6 +26,7 @@
             $stmt->bindValue(":ifeed", $param["ifeed"]);
             $stmt->bindValue(":img", $param["img"]);
             $stmt->execute();
+            return $stmt->rowCount();
         }
 
         public function selFeedList(&$param) {
@@ -79,7 +80,6 @@
           $stmt->bindValue(":ifeed", $param["ifeed"]);
           $stmt->bindValue(":iuser", $param["iuser"]);
           $stmt->execute();
-
           return $stmt->rowCount();
         }
 
@@ -90,7 +90,19 @@
           $stmt->bindValue(":ifeed", $param["ifeed"]);
           $stmt->bindValue(":iuser", $param["iuser"]);
           $stmt->execute();
-
           return $stmt->rowCount();
+        }
+
+        public function insCmt(&$param) {
+          $sql = "INSERT INTO t_feed_cmt
+                  (ifeed, iuser, cmt)
+                  VALUES
+                  (:ifeed, :iuser, :cmt)";
+          $stmt = $this->pdo->prepare($sql);
+          $stmt->bindValue(":ifeed", $param["ifeed"]);
+          $stmt->bindValue(":iuser", $param["iuser"]);
+          $stmt->bindValue(":cmt", $param["cmt"]);
+          $stmt->execute();
+          return $stmt->fetchAll(PDO::FETCH_OBJ);
         }
       }
