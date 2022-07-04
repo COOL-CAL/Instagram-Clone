@@ -29,14 +29,14 @@
                             } else {
                                 $data_follow = 0;
                                 $cls = "btn-primary";
-                                $txt = "팔로우";
+                                $txt = "Follow";
         
                                 if($this->data->meyou === 1) {
                                     $data_follow = 1;
                                     $cls = "btn-outline-secondary";
-                                    $txt = "팔로우 취소";
+                                    $txt = "Unfollow";
                                 } else if($this->data->youme === 1 && $this->data->meyou === 0) {
-                                    $txt = "맞팔로우 하기";
+                                    $txt = "Follow Back";
                                 }
                                 echo "<button type='button' id='btnFollow' data-youme='{$this->data->youme}' data-follow='{$data_follow}' class='btn {$cls}'>{$txt}</button>";
                             }

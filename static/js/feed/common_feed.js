@@ -152,8 +152,8 @@ const feedObj = {
         `;
         
         const divCmtList = document.createElement('div');
-        divCmtList.querySelector('divCmt');
-        divCmtList.classList.add('')
+        // divCmtList.querySelector('divCmt');
+        // divCmtList.classList.add('');
         divContainer.appendChild(divCmtList);
 
 
