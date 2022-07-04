@@ -1,3 +1,4 @@
+<div id="gData" data-toiuser="<?=$this->data->iuser?>"></div>
 <div class="d-flex flex-column align-items-center">
     <div class="size_box_100"></div>
     <div class="w100p_mw614">
@@ -10,16 +11,37 @@
                     </a>
                 </div>
                 <?php
+                    $isMyFeed = $this->data->iuser === getIuser() ? true : false;
                     $youme = $this->data->youme;
                     $meyou = $this->data->meyou;
                     ?>
-                    <div class="flex-grow-1 d-flex flex-column justify-content-between">
-                        <div><?=$this->data->email?>
-                            <button type="button" id="btnModProfile" class="btn btn-outline-secondary <?=getIuser() === $this->data->loginiuser ? "" : "d-none"?>">Profile edit</button>
+                    <div class="flex-grow-1 d-flex flex-column justify-content-evenly">
+                        <div><?=$this->data->email?></div>
+                            <!-- <button type="button" id="btnModProfile" class="btn btn-outline-secondary <?=$isMyFeed ? "" : "d-none"?>">Profile edit</button>
                             <button type="button" id="btnFollow" data-follow="0" class="btn btn-outline-primary <?= $youme & !$meyou ? "" : "d-none" ?> ">Follow Back</button>
                             <button type="button" id="btnFollow" data-follow="0" class="btn btn-outline-primary <?= !$youme & !$meyou & !getIuser() ? "" : "d-none" ?> ">Follow</button>
-                            <button type="button" id="btnFollow" data-follow="1" class="btn btn-outline-secondary <?= $meyou ? "" : "d-none" ?> ">Unfollow</button>
-                        </div>
+                            <button type="button" id="btnFollow" data-follow="1" class="btn btn-outline-secondary <?= $meyou ? "" : "d-none" ?> ">Unfollow</button> -->
+
+                        <!-- solve -->
+                        <?php
+                            if($this->data->iuser === getIuser()) {
+                                echo '<button type="button" id="btnModProfile" class="btn btn-outline-secondary">프로필 수정</button>';
+                            } else {
+                                $data_follow = 0;
+                                $cls = "btn-primary";
+                                $txt = "팔로우";
+        
+                                if($this->data->meyou === 1) {
+                                    $data_follow = 1;
+                                    $cls = "btn-outline-secondary";
+                                    $txt = "팔로우 취소";
+                                } else if($this->data->youme === 1 && $this->data->meyou === 0) {
+                                    $txt = "맞팔로우 하기";
+                                }
+                                echo "<button type='button' id='btnFollow' data-youme='{$this->data->youme}' data-follow='{$data_follow}' class='btn {$cls}'>{$txt}</button>";
+                            }
+                        ?> 
+                       
                         <div class="d-flex flex-row">
                             <div class="flex-grow-1">Posts <span>18 </span></div>
                             <div class="flex-grow-1">Followers <span>18 </span></div>
@@ -29,26 +51,6 @@
                         <div><?=$this->data->cmt?></div>
                     </div>
                 
-                <!-- solve
-                </?php
-                    if($this->data->iuser === getIuser()) {
-                        echo '<button type="button" id=btnModProfile" class="btn btn-outline-secondary">프로필 수정</button>';
-                    } else {
-                        $data_follow = 0;
-                        $cls = "btn-primary";
-                        $txt = "팔로우";
-
-                        if($this->data->meyou === 1) {
-                            $data_follow = 1;
-                            $cls = "btn-outline-secondary";
-                            $txt = "팔로우 취소";
-                        } else if($this->data->youme === 1 && $this->data->meyou === 0) {
-                            $txt = "맞팔로우 하기";
-                        }
-                        echo "<button type='button' id='btnFollow' data-follow='{$data_follow}' class='btn {$cls}'>{$txt}</button>";
-                    }
-                ?/> 
-                -->
         </div>
     </div>
 </div> 
