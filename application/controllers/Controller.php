@@ -40,8 +40,8 @@ class Controller {
         }        
     }
     
-    protected function getModal($key) {
-        
+    protected function getModel($key) {
+
     }
     
     protected function addAttribute($key, $val) {

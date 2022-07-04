@@ -1,8 +1,11 @@
+const url = new URL(location.href);
+
 function getFeedList() {
     if(!feedObj) { return; }
     feedObj.showLoading();            
     const param = {
-        page: feedObj.currentPage++
+        page: feedObj.currentPage++,
+        iuser: url.searchParams.get('iuser')
     }
     fetch('/user/feed' + encodeQueryString(param))
     .then(res => res.json())

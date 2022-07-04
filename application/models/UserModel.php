@@ -49,6 +49,8 @@ class UserModel extends Model {
                      , (SELECT COUNT(ifeed) FROM t_feed WHERE iuser = {$feediuser}) AS feedCnt
                      , (SELECT COUNT(fromiuser) FROM t_user_follow WHERE fromiuser = {$feediuser} AND toiuser = {$loginiuser}) AS youme
 	                 , (SELECT COUNT(fromiuser) FROM t_user_follow WHERE fromiuser = {$loginiuser} AND toiuser = {$feediuser}) AS meyou
+	                 , (SELECT COUNT(fromiuser) FROM t_user_follow WHERE fromiuser = {$feediuser}) AS follower
+	                 , (SELECT COUNT(toiuser) FROM t_user_follow WHERE toiuser = {$feediuser}) AS following
                   FROM t_user
                  WHERE iuser = {$feediuser}";
         $stmt = $this->pdo->prepare($sql);

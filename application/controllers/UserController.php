@@ -102,6 +102,7 @@ class UserController extends Controller {
     }
 
     public function feed() {
+        $iuser = isset($_GET["iuser"]) ? intval($_GET["iuser"]) : 0;
         if(getMethod() === _GET) {
             $page = 1;
             if(isset($_GET["page"])) {
@@ -110,14 +111,14 @@ class UserController extends Controller {
             $startIdx = ($page - 1) * _FEED_ITEM_CNT;
             $param = [
                 "startIdx" => $startIdx,
-                "iuser" => getIuser()
+                "iuser" => $iuser
             ];
             $list = $this->model->selFeedList($param);
             foreach($list as $item) {
                 $item->imgList = Application::getModel("feed")->selFeedImgList($item);
             }
             return $list;
-        }
+        } //static함수 -> static인 멤버필드에서만 사용.
     }
 
     public function follow() {
