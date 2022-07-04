@@ -18,7 +18,7 @@
                     }
                     // $imgCount = count($_FILES["img"]["name"]);
 
-                    $iuser = getIuser();
+                    // $iuser = getIuser();
                     $param = [
                         "location" => $_POST["location"],
                         "ctnt" => $_POST["ctnt"],
@@ -83,5 +83,9 @@
                 case _DELETE:
                     return [_RESULT => $this->model->delFeedFav($param)];
             }
+        }
+
+        public function cmtSub() {
+            
         }
     }
