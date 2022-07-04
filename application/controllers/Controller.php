@@ -1,7 +1,8 @@
 <?php
 namespace application\controllers;
 
-class Controller {    
+class Controller {  
+    protected $ctx;
     protected $model;
     private static $needLoginUrlArr = [
         "feed",
@@ -38,8 +39,9 @@ class Controller {
             echo json_encode($view);
         }        
     }
-    private function chkLoginUrl() {
-
+    
+    protected function getModal($key) {
+        
     }
     
     protected function addAttribute($key, $val) {
