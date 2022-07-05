@@ -36,4 +36,18 @@ class FeedCmtModel extends Model {
          return $stmt->fetch(PDO::FETCH_OBJ);
     }
 
+    public function selFeedCmtList(&$param) {
+        $sql = "SELECT A.icmt, A.cmt, A.regdt, A.ifeed
+                     , B.iuser, B.nm AS writer, B.mainimg AS writerimg
+                  FROM t_feed_cmt A
+                 INNER JOIN t_user B
+                    ON A.iuser = B.iuser
+                 WHERE A.ifeed = :ifeed
+                 ORDER BY A.icmt DESC";
+         $stmt = $this->pdo->prepare($sql);
+         $stmt->bindValue(":ifeed", $param["ifeed"]);
+         $stmt->execute();
+         return $stmt->fetchAll(PDO::FETCH_OBJ);
+    }
+
 } 

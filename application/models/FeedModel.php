@@ -32,8 +32,8 @@
         public function selFeedList(&$param) {
             $sql = " SELECT A.ifeed, A.location, A.ctnt, A.iuser, A.regdt
                           , C.nm AS writer, C.mainimg
-                          ,IFNULL(E.cnt, 0) AS favCnt
-                          ,IF(F.ifeed IS NULL, 0, 1) AS isFav
+                          , IFNULL(E.cnt, 0) AS favCnt
+                          , IF(F.ifeed IS NULL, 0, 1) AS isFav
                           -- ,case when D.ifeed IS NULL then 0 ELSE 1 END AS isFav
                       FROM t_feed A
                      INNER JOIN t_user C
@@ -61,12 +61,28 @@
             return $stmt->fetchAll(PDO::FETCH_OBJ);
         }
 
+        public function selFeedAfterReg(&$param) {
+          $sql = " SELECT A.ifeed, A.location, A.ctnt, A.iuser, A.regdt
+                        , C.nm AS writer, C.mainimg
+                        , 0 AS favCnt
+                        , 0 AS isFav
+                    FROM t_feed A
+                   INNER JOIN t_user C
+                      ON A.iuser = C.iuser
+                   WHERE A.ifeed = :ifeed
+                   ORDER BY A.ifeed DESC";
+          $stmt = $this->pdo->prepare($sql);
+          $stmt->bindValue(":ifeed", $param["ifeed"]);
+          $stmt->execute();
+          return $stmt->fetch(PDO::FETCH_OBJ);
+      }
+
         public function selFeedImgList($param) {
           $sql = "SELECT img
                     FROM t_feed_img
                    WHERE ifeed = :ifeed";
           $stmt = $this->pdo->prepare($sql);
-          $stmt->bindValue(":ifeed", $param->ifeed);
+          $stmt->bindValue(":ifeed", $param["ifeed"]);
           $stmt->execute();
           return $stmt->fetchAll(PDO::FETCH_OBJ);
         }

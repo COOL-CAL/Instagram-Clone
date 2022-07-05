@@ -3,31 +3,7 @@ const feedObj = {
     itemLength: 0,
     currentPage: 1,
     swiper: null,
-    loadingElem: document.querySelector('.loading'),
-    containerElem: document.querySelector('#item_container'), 
-    makeCmtItem: function(item) {
-        const divCmtItemContainer = document.createElement('div');
-        divCmtItemContainer.className = 'd-flex flex-row align-items-center mb-2';
-        const src = '/static/img/profile/' + (item.writerimg ? `${item.iuser}/${item.writerimg}` : 'sad.jpg');
-        divCmtItemContainer.innerHTML = `
-            <div class="circleimg h24 w24 me-1">
-                <img src="${src}" class="profile w24 pointer">                
-            </div>
-            <div class="d-flex flex-row">
-                <div class="pointer me-2">${item.writer} - <span class="rem0_8">${getDateTimeInfo(item.regdt)}</span></div>
-                <div>${item.cmt}</div>
-            </div>
-        `;
-        return divCmtItemContainer;
-    },
-    makeFeedList: function(list) {
-        if(list.length !== 0) {
-            list.forEach(item => {
-                const divItem = this.makeFeedItem(item);
-                this.containerElem.appendChild(divItem);
-            });
-        }
-        
+    refreshSwipe: function() {
         if(this.swiper !== null) { this.swiper = null; }
         this.swiper = new Swiper('.swiper', {
             navigation: {
@@ -39,7 +15,63 @@ const feedObj = {
             direction: 'horizontal',
             loop: false
         });
+    },
+    loadingElem: document.querySelector('.loading'),
+    containerElem: document.querySelector('#item_container'), 
+    getFeedCmtList: function(ifeed, divCmtList, spanMoreCmt) {
+        fetch(`/feedcmt/index?ifeed=${ifeed}`)
+        .then(res => res.json())
+        .then(res => {
+            if(res && res.length > 0) {
+                if(spanMoreCmt) { spanMoreCmt.remove(); }
+                divCmtList.innerHTML = null;
+                res.forEach(item => {
+                    const divCmtItem = this.makeCmtItem(item);
+                    divCmtList.appendChild(divCmtItem);
+                });
+            }
+        });
+    },
 
+    makeCmtItem: function(item) {
+        const divCmtItemContainer = document.createElement('div');
+        divCmtItemContainer.className = 'd-flex flex-row align-items-center mb-2';
+        const src = '/static/img/profile/' + (item.writerimg ? `${item.iuser}/${item.writerimg}` : 'sad.jpg');
+        // divCmtItemContainer.innerHTML = `
+        //     <div class="circleimg h24 w24 me-1">
+        //         <a href="/user/feedwin?iuser=${item.iuser}"><img src="${src}" class="profile w24 pointer"></a>
+        //     </div>
+        //     <div class="d-flex flex-row">
+        //         <div class="pointer me-2"><a style="color: black" href="/user/feedwin?iuser=${item.iuser}">${item.writer}</a> - <span class="rem0_8">${getDateTimeInfo(item.regdt)}</span></div>
+        //         <div>${item.cmt}</div>
+        //     </div>
+        // `;
+
+        divCmtItemContainer.innerHTML = `
+            <div class="circleimg h24 w24 me-1">
+                <img src="${src}" class="profile w24 pointer">
+            </div>
+            <div class="d-flex flex-row">
+                <div class="pointer me-2">${item.writer} - <span class="rem0_8">${getDateTimeInfo(item.regdt)}</span></div>
+                <div>${item.cmt}</div>
+            </div>
+        `;
+        //solve.
+        const img = divCmtItemContainer.querySelector('img');
+        img.addEventListener('click', e => {
+            moveToFeedWin(item.iuser);
+        });
+        return divCmtItemContainer;
+    },
+    makeFeedList: function(list) {
+        if(list.length !== 0) {
+            list.forEach(item => {
+                const divItem = this.makeFeedItem(item);
+                this.containerElem.appendChild(divItem);
+            });
+        }
+
+        this.refreshSwipe();
         this.hideLoading();
     },
     makeFeedItem: function(item) {
@@ -135,7 +167,7 @@ const feedObj = {
         const divDm = document.createElement('div');
         divBtns.appendChild(divDm);
         divDm.className = 'pointer';
-        divDm.innerHTML = `<svg aria-label="다이렉트 메시지" class="_8-yf5 " color="#262626" fill="#262626" height="24" role="img" viewBox="0 0 24 24" width="24"><line fill="none" stroke="currentColor" stroke-linejoin="round" stroke-width="2" x1="22" x2="9.218" y1="3" y2="10.083"></line><polygon fill="none" points="11.698 20.334 22 3.001 2 3.001 9.218 10.084 11.698 20.334" stroke="currentColor" stroke-linejoin="round" stroke-width="2"></polygon></svg>`;
+        divDm.innerHTML = `<svg aria-label="Direct message" class="_8-yf5 " color="#262626" fill="#262626" height="24" role="img" viewBox="0 0 24 24" width="24"><line fill="none" stroke="currentColor" stroke-linejoin="round" stroke-width="2" x1="22" x2="9.218" y1="3" y2="10.083"></line><polygon fill="none" points="11.698 20.334 22 3.001 2 3.001 9.218 10.084 11.698 20.334" stroke="currentColor" stroke-linejoin="round" stroke-width="2"></polygon></svg>`;
 
         const divFav = document.createElement('div');
         divContainer.appendChild(divFav);
@@ -143,7 +175,7 @@ const feedObj = {
         const spanFavCnt = document.createElement('span');
         divFav.appendChild(spanFavCnt);
         spanFavCnt.className = 'bold';
-        spanFavCnt.innerHTML = `좋아요 ${item.favCnt}개`;
+        spanFavCnt.innerHTML = `Likes ${item.favCnt}`;
 
         if(item.favCnt > 0) { divFav.classList.remove('d-none'); }
 
@@ -154,13 +186,16 @@ const feedObj = {
             divCtnt.className = 'itemCtnt p-3';
         }
 
+        //comment
         const divCmtList = document.createElement('div');
         divContainer.appendChild(divCmtList);      
         divCmtList.className = 'ms-3';
 
         const divCmt = document.createElement('div');
-        divContainer.appendChild(divCmt);  
+        divContainer.appendChild(divCmt);
 
+        const spanMoreCmt = document.createElement('span');
+        
         if(item.cmt) {
             const divCmtItem = this.makeCmtItem(item.cmt);
             divCmtList.appendChild(divCmtItem);
@@ -170,31 +205,31 @@ const feedObj = {
                 divCmt.appendChild(divMoreCmt);
                 divMoreCmt.className = 'ms-3 mb-3';
     
-                const spanMoreCmt = document.createElement('span');
                 divMoreCmt.appendChild(spanMoreCmt);
                 spanMoreCmt.className = 'pointer rem0_9 c_lightgray';
-                spanMoreCmt.innerText = '댓글 더보기..';
+                spanMoreCmt.innerText = 'View all comments...';
                 spanMoreCmt.addEventListener('click', e => {
-                    
+                   this.getFeedCmtList(item.ifeed, divCmtList, spanMoreCmt);
                 });
-    
             }
         }
 
-        
-        
         const divCmtForm = document.createElement('div');
         divCmtForm.className = 'd-flex flex-row';     
         divCmt.appendChild(divCmtForm);
 
         divCmtForm.innerHTML = `
-            <input type="text" class="flex-grow-1 my_input back_color p-2" placeholder="댓글을 입력하세요...">
-            <button type="button" class="btn btn-outline-primary">등록</button>
+            <input type="text" class="flex-grow-1 my_input back_color p-2" placeholder="Add a comment...">
+            <button type="button" class="btn btn-outline-primary">Post</button>
         `;
         const inputCmt = divCmtForm.querySelector('input');
+        inputCmt.addEventListener('keyup', e => {
+            if(e.key === 'Enter') {
+                btnCmtReg.click();
+            }
+        })
         const btnCmtReg = divCmtForm.querySelector('button');
         btnCmtReg.addEventListener('click', e => {
-
             const param = {
                 ifeed: item.ifeed,
                 cmt: inputCmt.value
@@ -204,14 +239,13 @@ const feedObj = {
                 body: JSON.stringify(param)
             })
             .then(res => res.json())
-            .then(res => {
-                console.log('icmt : ' + res.result);
+            .then(res => {            
                 if(res.result) {
-                    inputCmt.value = '';
+                    inputCmt.value = '';                    
+                    this.getFeedCmtList(param.ifeed, divCmtList, spanMoreCmt);
                     //댓글 공간에 댓글 내용 추가
                 }
-            });
-            
+            })
         });
 
         return divContainer;
@@ -244,13 +278,13 @@ function moveToFeedWin(iuser) {
                         <div class="d-flex flex-md-row">
                             <div class="flex-grow-1 h-full"><img id="id-img" class="w300"></div>
                             <div class="ms-1 w250 d-flex flex-column">                
-                                <textarea placeholder="문구 입력..." class="flex-grow-1 p-1"></textarea>
-                                <input type="text" placeholder="위치" class="mt-1 p-1">
+                                <textarea placeholder="Write a caption..." class="flex-grow-1 p-1"></textarea>
+                                <input type="text" placeholder="Location" class="mt-1 p-1">
                             </div>
                         </div>
                     </div>
                     <div class="mt-2">
-                        <button type="button" class="btn btn-primary">공유하기</button>
+                        <button type="button" class="btn btn-primary">Share</button>
                     </div>
                 `;
                 const imgElem = body.querySelector('#id-img');
@@ -280,8 +314,13 @@ function moveToFeedWin(iuser) {
                         .then(myJson => {
                            console.log(myJson);
 
-                           if(myJson.result) {                                
+                           if(myJson) {                                
                                 btnClose.click();
+
+                                //화면에 등록
+                                const feedItem = feedObj.makeFeedItem(myJson);
+                                feedObj.containerElem.prepend(feedItem);
+                                feedObj.refreshSwipe();
                            }
                         });
                         
