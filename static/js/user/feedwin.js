@@ -1,10 +1,10 @@
 const url = new URL(location.href);
 
-function getFeedList() {
+function getFeedList() {    
     if(!feedObj) { return; }
     feedObj.showLoading();            
     const param = {
-        page: feedObj.currentPage++,
+        page: feedObj.currentPage++,        
         iuser: url.searchParams.get('iuser')
     }
     fetch('/user/feed' + encodeQueryString(param))
@@ -18,6 +18,8 @@ function getFeedList() {
     });
 }
 getFeedList();
+
+
 
 (function() {
     const gData = document.querySelector('#gData');
@@ -33,24 +35,23 @@ getFeedList();
             console.log('follow : ' + follow);
             const followUrl = '/user/follow';
             switch(follow) {
-                case '1' : //unfollow
+                case '1': //팔로우 취소
                     fetch(followUrl + encodeQueryString(param), {method: 'DELETE'})
                     .then(res => res.json())
-                    .then(res => {
+                    .then(res => {                        
                         if(res.result) {
                             btnFollow.dataset.follow = '0';
                             btnFollow.classList.remove('btn-outline-secondary');
                             btnFollow.classList.add('btn-primary');
-                            if(btnFollow.dataset.youme === '1'){
-                                btnFollow.innerText = 'Follow Back';
+                            if(btnFollow.dataset.youme === '1') {
+                                btnFollow.innerText = '맞팔로우 하기';
                             } else {
-                                btnFollow.innerText = 'Follow';
-                            }
+                                btnFollow.innerText = '팔로우';
+                            }                            
                         }
-                    
                     });
                     break;
-                case '0' : //follow
+                case '0': //팔로우 등록
                     fetch(followUrl, {
                         method: 'POST',
                         body: JSON.stringify(param)
@@ -61,11 +62,12 @@ getFeedList();
                             btnFollow.dataset.follow = '1';
                             btnFollow.classList.remove('btn-primary');
                             btnFollow.classList.add('btn-outline-secondary');
-                            btnFollow.innerText = 'Unfollow';
+                            btnFollow.innerText = '팔로우 취소';
                         }
-                    })
+                    });
                     break;
             }
         });
     }
+
 })();

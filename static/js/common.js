@@ -1,18 +1,19 @@
 function encodeQueryString(params) {
     const keys = Object.keys(params);
-    return keys.length
-            ? "?" + keys.map(key => //map: 길이가 같은 새로운 배열 만들 때. 근데? 내용을 바꿔.
-                                encodeURIComponent(key) + "=" +
-                                encodeURIComponent(params[key])
-                            ).join("&")
+    return keys.length 
+            ? "?" + keys.map(key => 
+                        encodeURIComponent(key) + "=" + 
+                        encodeURIComponent(params[key])
+                    ).join("&")
             : "";
 }
+
 function getDateTimeInfo(dt) {
     const nowDt = new Date();
     const targetDt = new Date(dt);
 
-    const nowDtSec = parseInt(nowDt.getTime() / 1000);
-    const targetDtSec = parseInt(targetDt.getTime() / 1000);
+    const nowDtSec = parseInt(nowDt.getTime() * 0.001);
+    const targetDtSec = parseInt(targetDt.getTime() * 0.001);
 
     const diffSec = nowDtSec - targetDtSec;
     if(diffSec < 120) {
