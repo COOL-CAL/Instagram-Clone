@@ -115,7 +115,8 @@ class UserController extends Controller {
             ];
             $list = $this->model->selFeedList($param);
             foreach($list as $item) {
-                $item->imgList = Application::getModel("feed")->selFeedImgList($item);
+                $param2 = ["ifeed" => $item->ifeed];
+                $item->imgList = Application::getModel("feed")->selFeedImgList($param2);
             }
             return $list;
         } //static함수 -> static인 멤버필드에서만 사용.
@@ -130,10 +131,10 @@ class UserController extends Controller {
             case _POST:
                 $json = getJson();
                 $param["toiuser"] = $json["toiuser"];
-                return [_RESULT =>  $this->model->insFollow($param)];
+                return [_RESULT =>  $this->model->insUserFollow($param)];
                 case _DELETE:
                 $param["toiuser"] = $_GET["toiuser"];
-                return [_RESULT => $this->model->delFollow($param)];
+                return [_RESULT => $this->model->delUserFollow($param)];
         }
     }
     

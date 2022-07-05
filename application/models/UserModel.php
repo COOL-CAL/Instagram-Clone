@@ -58,7 +58,7 @@ class UserModel extends Model {
         return $stmt->fetch(PDO::FETCH_OBJ);
     }
 
-    public function insFollow(&$param) {
+    public function insUserFollow(&$param) {
         $sql = "INSERT INTO t_user_follow
                 ( fromiuser, toiuser )
                 VALUES
@@ -70,7 +70,7 @@ class UserModel extends Model {
         return $stmt->rowCount();
     }
 
-    public function delFollow(&$param) {
+    public function delUserFollow(&$param) {
         $sql = "DELETE FROM t_user_follow
                  WHERE fromiuser = :fromiuser
                    AND toiuser = :toiuser";
