@@ -44,9 +44,11 @@ getFeedList();
                             btnFollow.classList.remove('btn-outline-secondary');
                             btnFollow.classList.add('btn-primary');
                             if(btnFollow.dataset.youme === '1') {
-                                btnFollow.innerText = '맞팔로우 하기';
+                                btnFollow.innerText = 'Follow Back';
+                                
                             } else {
-                                btnFollow.innerText = '팔로우';
+                                btnFollow.innerText = 'Follow';
+                                
                             }                            
                         }
                     });
