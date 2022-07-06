@@ -83,6 +83,8 @@ class UserModel extends Model {
 
     //feed
     public function selFeedList(&$param) {
+        $toiuser = $param["toiuser"];
+        $loginIuser = $param["loginIuser"];
         $sql = " SELECT A.ifeed, A.location, A.ctnt, A.iuser, A.regdt
                       , C.nm AS writer, C.mainimg
                       , IFNULL(E.cnt, 0) AS favCnt
@@ -91,7 +93,6 @@ class UserModel extends Model {
                   FROM t_feed A
                  INNER JOIN t_user C
                     ON A.iuser = C.iuser
-                   AND C.iuser = :toiuser
                   LEFT JOIN (
                 SELECT ifeed, COUNT(ifeed) AS cnt
                   FROM t_feed_fav
@@ -101,9 +102,10 @@ class UserModel extends Model {
                   LEFT JOIN (
                 SELECT ifeed
                   FROM t_feed_fav
-                 WHERE iuser= :loginiuser
+                 WHERE iuser= {$loginIuser}
                 ) F
                     ON A.ifeed = F.ifeed
+                 WHERE C.iuser = {$toiuser}
                  ORDER BY A.ifeed DESC
                  LIMIT :startIdx, :feedItemCnt;
                 ";

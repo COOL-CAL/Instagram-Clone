@@ -44,7 +44,7 @@
 
                 <div class="d-flex flex-row">
                     <div class="flex-grow-1">Posts <span><?= $this->data->feedCnt?></span></div>
-                    <div class="flex-grow-1">Followers <span><?= $this->data->follower?></span></div>
+                    <div class="flex-grow-1">Followers <span id="spanCntFollower"><?= $this->data->follower?></span></div>
                     <div class="flex-grow-1">Following <span><?= $this->data->following?></span></div>
                 </div>
                 <div class="bold"><?= $this->data->nm ?></div>

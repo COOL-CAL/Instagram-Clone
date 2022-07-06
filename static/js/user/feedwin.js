@@ -22,6 +22,7 @@ getFeedList();
 
 
 (function() {
+    const spanCntFollower = document.querySelector('#spanCntFollower');
     const lData = document.querySelector('#lData');
 
     const btnFollow = document.querySelector('#btnFollow');
@@ -40,15 +41,17 @@ getFeedList();
                     .then(res => res.json())
                     .then(res => {                        
                         if(res.result) {
+                            //follower number change
+                            const cntFollowerVal = parseInt(spanCntFollower.innerText);
+                            spanCntFollower.innerText = cntFollowerVal - 1;
+
                             btnFollow.dataset.follow = '0';
                             btnFollow.classList.remove('btn-outline-secondary');
                             btnFollow.classList.add('btn-primary');
                             if(btnFollow.dataset.youme === '1') {
                                 btnFollow.innerText = 'Follow Back';
-                                
                             } else {
                                 btnFollow.innerText = 'Follow';
-                                
                             }                            
                         }
                     });
@@ -61,10 +64,12 @@ getFeedList();
                     .then(res => res.json())
                     .then(res => {
                         if(res.result) {
+                            const cntFollowerVal = parseInt(spanCntFollower.innerText);
+                            spanCntFollower.innerText = cntFollowerVal + 1;
                             btnFollow.dataset.follow = '1';
                             btnFollow.classList.remove('btn-primary');
                             btnFollow.classList.add('btn-outline-secondary');
-                            btnFollow.innerText = '팔로우 취소';
+                            btnFollow.innerText = 'Unfollow';
                         }
                     });
                     break;

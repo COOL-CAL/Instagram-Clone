@@ -3,6 +3,26 @@ const feedObj = {
     itemLength: 0,
     currentPage: 1,
     swiper: null,
+    loadingElem: document.querySelector('.loading'),
+    containerElem: document.querySelector('#item_container'),
+    getfFeedUrl: '',
+    iuser: 0,
+    getFeedList: function() {
+            this.showLoading();            
+        const param = {
+            page: this.currentPage++,        
+            iuser: this.iuser
+        }
+        fetch(this.getFeedUrl + encodeQueryString(param))
+        .then(res => res.json())
+        .then(list => {                
+            this.makeFeedList(list);                
+        })
+        .catch(e => {
+            console.error(e);
+            this.hideLoading();
+        });
+    },
     refreshSwipe: function() {
         if(this.swiper !== null) { this.swiper = null; }
         this.swiper = new Swiper('.swiper', {
@@ -16,8 +36,6 @@ const feedObj = {
             loop: false
         });
     },
-    loadingElem: document.querySelector('.loading'),
-    containerElem: document.querySelector('#item_container'), 
     getFeedCmtList: function(ifeed, divCmtList, spanMoreCmt) {
         fetch(`/feedcmt/index?ifeed=${ifeed}`)
         .then(res => res.json())

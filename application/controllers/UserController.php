@@ -118,6 +118,7 @@ class UserController extends Controller {
             foreach($list as $item) {
                 $param2 = ["ifeed" => $item->ifeed];
                 $item->imgList = Application::getModel("feed")->selFeedImgList($param2);
+                // $item->cmt = Application::getModel("feedcmt")->selFeedCmt($param2);
             }
             return $list;
         } //static함수 -> static인 멤버필드에서만 사용.
