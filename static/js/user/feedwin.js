@@ -4,32 +4,14 @@ if(feedObj) {
     feedObj.getFeedUrl = '/user/feed' ;
     feedObj.getFeedList();
 }
-// function getFeedList() {    
-//     if(!feedObj) { return; }
-//     feedObj.showLoading();            
-//     const param = {
-//         page: feedObj.currentPage++,        
-//         iuser: url.searchParams.get('iuser')
-//     }
-//     fetch('/user/feed' + encodeQueryString(param))
-//     .then(res => res.json())
-//     .then(list => {                
-//         feedObj.makeFeedList(list);                
-//     })
-//     .catch(e => {
-//         console.error(e);
-//         feedObj.hideLoading();
-//     });
-// }
-// getFeedList();
-
-
 
 (function() {
     const spanCntFollower = document.querySelector('#spanCntFollower');
     const lData = document.querySelector('#lData');
-
     const btnFollow = document.querySelector('#btnFollow');
+    const btnDelCurrentProfilePic = document.querySelector('#btnDelCurrentProfilePic');
+    const btnProfileImgModalClose = document.querySelector('#btnProfileImgModalClose');
+
     if(btnFollow) {
         btnFollow.addEventListener('click', function() {
             const param = {
@@ -78,6 +60,22 @@ if(feedObj) {
                     });
                     break;
             }
+        });
+    }
+
+    if(btnDelCurrentProfilePic) {
+        btnDelCurrentProfilePic.addEventListener('click', e => {
+            fetch('/user/profile', { method: 'DELETE'})
+            .then(res => res.json())
+            .then(res => {
+                if(res.result) {
+                    const profileImgList = document.querySelectorAll('.profileimg');
+                    profileImgList.forEach(item => {
+                        item.src = '/static/img/profile/sad.jpg';
+                    });
+                }
+                btnProfileImgModalClose.click();
+            })
         });
     }
 

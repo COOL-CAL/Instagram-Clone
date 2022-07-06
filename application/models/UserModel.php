@@ -28,16 +28,6 @@ class UserModel extends Model {
         return $stmt->fetch(PDO::FETCH_OBJ);
     }
 
-    // public function selUserByIuser(&$param) {
-    //     $sql = "SELECT iuser, email, nm, cmt, mainimg, regdt 
-    //               FROM t_user
-    //              WHERE iuser = :iuser";
-    //     $stmt = $this->pdo->prepare($sql);
-    //     $stmt->bindValue(":iuser", $param["iuser"]);
-    //     $stmt->execute();
-    //     return $stmt->fetch(PDO::FETCH_OBJ);
-    // }
-
     public function selUserProfile(&$param) {
         // $sql = "SELECT A.iuser, A.email, A.nm, A.cmt, A.mainimg COUNT(B.ifeed)
         //         FROM t_user A
@@ -58,6 +48,25 @@ class UserModel extends Model {
         return $stmt->fetch(PDO::FETCH_OBJ);
     }
 
+    public function updUser(&$param) {
+        $sql = "UPDATE t_user
+                SET moddt = now()";
+        if(isset($param["mainimg"])) {
+            $mainimg = $param["mainimg"];
+            $sql .= ", mainimg = '{$mainimg}'";
+        }
+        if(isset($param["delMainImg"])) {
+            $sql .= ", mainimg = null";
+        }
+
+        $sql .= " WHERE iuser = :iuser";
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->bindValue(":iuser", $param["iuser"]);
+        $stmt->execute();
+        return $stmt->rowCount();
+    }
+
+    //follow
     public function insUserFollow(&$param) {
         $sql = "INSERT INTO t_user_follow
                 ( fromiuser, toiuser )
@@ -83,7 +92,6 @@ class UserModel extends Model {
 
     //feed
     public function selFeedList(&$param) {
-
         $sql = " SELECT A.ifeed, A.location, A.ctnt, A.iuser, A.regdt
                       , C.nm AS writer, C.mainimg
                       , IFNULL(E.cnt, 0) AS favCnt

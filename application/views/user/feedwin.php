@@ -6,7 +6,7 @@
             <div class="d-flex flex-column justify-content-center">
                 <a href="#" id="btnChangePPModal" data-bs-toggle="modal" data-bs-target="#changePPModal">
                     <div class="circleimg h150 w150 pointer feedwin">
-                        <img src='/static/img/profile/<?= $this->data->iuser ?>/<?= $this->data->mainimg ?>' onerror='this.error=null;this.src="/static/img/profile/sad.jpg"'>
+                        <img class="profileimg" src='/static/img/profile/<?= $this->data->iuser ?>/<?= $this->data->mainimg ?>' onerror='this.error=null;this.src="/static/img/profile/sad.jpg"'>
                     </div>
                 </a>
             </div>
@@ -67,14 +67,14 @@
     <div class="modal-dialog modal-dialog-centered w430">
         <div class="modal-content" id="changePPModalContent">
             <div class="modal-header d-block">
-                <h5 class="modal-title text-center" tabindex="-1" id="changePPModalLabel">Change Profile Pic</h5>
+                <h5 class="modal-title text-center" tabindex="-1">Change Profile Pic</h5>
             </div>
             <div class="p-0 modal-body text-center" id="id-modal-body">
-                <button class="text-primary bg-white pt-3">Choose from library</button>
+                <button class="pointer text-primary bg-white pt-3">Choose from library</button>
                 <hr>
-                <button class="text-danger bg-white">Remove current pic</button>
+                <button class="pointer text-danger bg-white c_error-or-destructive" id="btnDelCurrentProfilePic">Remove current pic</button>
                 <hr>
-                <button class="text-muted bg-white pb-3">Cancel</button>
+                <button class="pointer text-muted bg-white pb-3 " data-bs-dismiss="modal" id="btnProfileImgModalClose">Cancel</button>
             </div>
         </div>
     </div>

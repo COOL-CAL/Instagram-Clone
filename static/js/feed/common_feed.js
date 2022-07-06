@@ -9,6 +9,7 @@ const feedObj = {
     iuser: 0,
     setScrollInfinity: function() {
         window.addEventListener('scroll', e => {
+            if(this.isLoading()) { return; }
             const {
                 scrollTop,
                 scrollHeight,
@@ -82,7 +83,7 @@ const feedObj = {
 
         divCmtItemContainer.innerHTML = `
             <div class="circleimg h24 w24 me-1">
-                <img src="${src}" class="profile w24 pointer">
+                <img class="profileimg" src="${src}" class="profile w24 pointer">
             </div>
             <div class="d-flex flex-row">
                 <div class="pointer me-2">${item.writer} - <span class="rem0_8">${getDateTimeInfo(item.regdt)}</span></div>
@@ -117,7 +118,7 @@ const feedObj = {
 
         const regDtInfo = getDateTimeInfo(item.regdt);
         divTop.className = 'd-flex flex-row ps-3 pe-3';
-        const writerImg = `<img src='/static/img/profile/${item.iuser}/${item.mainimg}' 
+        const writerImg = `<img class="profileimg" src='/static/img/profile/${item.iuser}/${item.mainimg}' 
             onerror='this.error=null;this.src="/static/img/profile/sad.jpg"'>`;
 
         divTop.innerHTML = `
@@ -169,6 +170,7 @@ const feedObj = {
         divBtns.appendChild(heartIcon);
         heartIcon.className = 'fa-heart pointer rem1_5 me-3';
         heartIcon.classList.add(item.isFav === 1 ? 'fas' : 'far');
+
         heartIcon.addEventListener('click', e => {
             
             let method = 'POST';
@@ -183,13 +185,19 @@ const feedObj = {
                 if(res.result) {
                     item.isFav = 1 - item.isFav; // 0 > 1, 1 > 0
                     if(item.isFav === 0) { // 좋아요 취소
-                        
+                        item.favCnt --;
+                        if(item.favCnt === 0) {
+                        divFav.classList.add('d-none');
+                        }
                         heartIcon.classList.remove('fas');
                         heartIcon.classList.add('far');
                     } else { // 좋아요 처리
+                        divFav.classList.remove('d-none');
+                        item.favCnt ++;
                         heartIcon.classList.remove('far');
                         heartIcon.classList.add('fas');
                     }
+                    spanFavCnt.innerHTML = `Likes ${item.favCnt}`;
                 } else {
                     alert('좋아요를 할 수 없습니다.');
                 }
