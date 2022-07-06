@@ -16,7 +16,12 @@
             $meyou = $this->data->meyou;
             ?>
             <div class="flex-grow-1 d-flex flex-column justify-content-evenly">
-                <div><?= $this->data->email ?></div>
+                <div>
+                    <?php $email = $this->data->email;
+                    $email_array = explode('@', $email);
+                    echo $email_array[0];
+                    ?>
+                <!-- </div> -->
                 <!-- <button type="button" id="btnModProfile" class="btn btn-outline-secondary <?= $isMyFeed ? "" : "d-none" ?>">Profile edit</button>
                             <button type="button" id="btnFollow" data-follow="0" class="btn btn-outline-primary <?= $youme & !$meyou ? "" : "d-none" ?> ">Follow Back</button>
                             <button type="button" id="btnFollow" data-follow="0" class="btn btn-outline-primary <?= !$youme & !$meyou & !getIuser() ? "" : "d-none" ?> ">Follow</button>
@@ -41,6 +46,7 @@
                     echo "<button type='button' id='btnFollow' data-youme='{$this->data->youme}' data-follow='{$data_follow}' class='btn {$cls}'>{$txt}</button>";
                 }
                 ?>
+                </div>
 
                 <div class="d-flex flex-row">
                     <div class="flex-grow-1">Posts <span><?= $this->data->feedCnt?></span></div>

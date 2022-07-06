@@ -5,9 +5,23 @@ const feedObj = {
     swiper: null,
     loadingElem: document.querySelector('.loading'),
     containerElem: document.querySelector('#item_container'),
-    getfFeedUrl: '',
+    getFeedUrl: '',
     iuser: 0,
+    setScrollInfinity: function() {
+        window.addEventListener('scroll', e => {
+            const {
+                scrollTop,
+                scrollHeight,
+                clientHeight
+            } = document.documentElement;
+
+            if( scrollTop + clientHeight >= scrollHeight - 5 && this.itemLength === this.limit ) {
+                this.getFeedList();
+            }
+        }, {passive: true});
+    },
     getFeedList: function() {
+            this.itemLength = 0;
             this.showLoading();            
         const param = {
             page: this.currentPage++,        
@@ -15,7 +29,8 @@ const feedObj = {
         }
         fetch(this.getFeedUrl + encodeQueryString(param))
         .then(res => res.json())
-        .then(list => {                
+        .then(list => {
+            this.itemLength = list.length;            
             this.makeFeedList(list);                
         })
         .catch(e => {
@@ -144,6 +159,8 @@ const feedObj = {
             img.src = `/static/img/feed/${item.ifeed}/${imgObj.img}`;
         });
 
+
+        //like
         const divBtns = document.createElement('div');
         divContainer.appendChild(divBtns);
         divBtns.className = 'favCont p-3 d-flex flex-row';
@@ -166,6 +183,7 @@ const feedObj = {
                 if(res.result) {
                     item.isFav = 1 - item.isFav; // 0 > 1, 1 > 0
                     if(item.isFav === 0) { // 좋아요 취소
+                        
                         heartIcon.classList.remove('fas');
                         heartIcon.classList.add('far');
                     } else { // 좋아요 처리
@@ -270,7 +288,8 @@ const feedObj = {
     },
 
     showLoading: function() { this.loadingElem.classList.remove('d-none'); },
-    hideLoading: function() { this.loadingElem.classList.add('d-none'); }
+    hideLoading: function() { this.loadingElem.classList.add('d-none'); },
+    isLoading: function() { return !this.loadingElem.classList.contains('d-none'); }
 
 }
 
@@ -342,6 +361,7 @@ function moveToFeedWin(iuser) {
                                 const feedItem = feedObj.makeFeedItem(myJson);
                                 feedObj.containerElem.prepend(feedItem);
                                 feedObj.refreshSwipe();
+                                window.scrollTo(0,0);
                            }
                         });
                         

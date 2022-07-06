@@ -1,23 +1,27 @@
-const url = new URL(location.href);
-
-function getFeedList() {    
-    if(!feedObj) { return; }
-    feedObj.showLoading();            
-    const param = {
-        page: feedObj.currentPage++,        
-        iuser: url.searchParams.get('iuser')
-    }
-    fetch('/user/feed' + encodeQueryString(param))
-    .then(res => res.json())
-    .then(list => {                
-        feedObj.makeFeedList(list);                
-    })
-    .catch(e => {
-        console.error(e);
-        feedObj.hideLoading();
-    });
+if(feedObj) {
+    const url = new URL(location.href);
+    feedObj.iuser = parseInt(url.searchParams.get('iuser'));
+    feedObj.getFeedUrl = '/user/feed' ;
+    feedObj.getFeedList();
 }
-getFeedList();
+// function getFeedList() {    
+//     if(!feedObj) { return; }
+//     feedObj.showLoading();            
+//     const param = {
+//         page: feedObj.currentPage++,        
+//         iuser: url.searchParams.get('iuser')
+//     }
+//     fetch('/user/feed' + encodeQueryString(param))
+//     .then(res => res.json())
+//     .then(list => {                
+//         feedObj.makeFeedList(list);                
+//     })
+//     .catch(e => {
+//         console.error(e);
+//         feedObj.hideLoading();
+//     });
+// }
+// getFeedList();
 
 
 
