@@ -30,7 +30,7 @@ class FeedController extends Controller {
                                         
                     $saveDirectory = _IMG_PATH . "/feed/" . $ifeed;
                     if(!is_dir($saveDirectory)) {
-                        mkdir($saveDirectory, 0777, true);
+                        mkdir($saveDirectory, 0777, true); //0777: 권한 부여
                     }
                     $tempName = $_FILES['imgs']['tmp_name'][$key];
                     $randomFileNm = getRandomFileNm($originFileNm);

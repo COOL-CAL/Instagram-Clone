@@ -4,7 +4,7 @@
     <div class="w100p_mw614">
         <div class="d-flex flex-row">
             <div class="d-flex flex-column justify-content-center">
-                <a href="#" id="btnChangePPModal" data-bs-toggle="modal" data-bs-target="#changePPModal">
+                <a href="#" id="btnChangePPModal" data-bs-toggle="modal" data-bs-target="#profileImgModal">
                     <div class="circleimg h150 w150 pointer feedwin">
                         <img class="profileimg" src='/static/img/profile/<?= $this->data->iuser ?>/<?= $this->data->mainimg ?>' onerror='this.error=null;this.src="/static/img/profile/sad.jpg"'>
                     </div>
@@ -62,21 +62,24 @@
     <div class="loading d-none"><img src="/static/img/loading.gif"></div>
 </div>
 
-<!-- change pp modal -->
-<div class="modal fade" id="changePPModal" tabindex="-1" aria-labelledby="changePPModalLabel" aria-hidden="true">
+<!-- update pp modal -->
+<div class="modal fade" id="profileImgModal" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered w430">
-        <div class="modal-content" id="changePPModalContent">
+        <div class="modal-content">
             <div class="modal-header d-block">
                 <h5 class="modal-title text-center" tabindex="-1">Change Profile Pic</h5>
             </div>
             <div class="p-0 modal-body text-center" id="id-modal-body">
-                <button class="pointer text-primary bg-white pt-3">Choose from library</button>
+                <button class="pointer text-primary bg-white pt-3" id="btnUpdCurrentProfilePic">Choose from library</button>
                 <hr>
                 <button class="pointer text-danger bg-white c_error-or-destructive" id="btnDelCurrentProfilePic">Remove current pic</button>
                 <hr>
                 <button class="pointer text-muted bg-white pb-3 " data-bs-dismiss="modal" id="btnProfileImgModalClose">Cancel</button>
             </div>
         </div>
+        <form class="d-none">
+            <input type="file" accept="image/*" name="imgs">
+        </form>
     </div>
 
 </div>

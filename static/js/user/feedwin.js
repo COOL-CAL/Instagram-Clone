@@ -9,6 +9,11 @@ if(feedObj) {
     const spanCntFollower = document.querySelector('#spanCntFollower');
     const lData = document.querySelector('#lData');
     const btnFollow = document.querySelector('#btnFollow');
+
+    const modalProfileImg = document.querySelector('#profileImgModal');
+    const frmProfileImg = modalProfileImg.querySelector('form');
+
+    const btnUpdProfilePic = document.querySelector('#btnUpdProfilePic');
     const btnDelCurrentProfilePic = document.querySelector('#btnDelCurrentProfilePic');
     const btnProfileImgModalClose = document.querySelector('#btnProfileImgModalClose');
 
@@ -62,6 +67,35 @@ if(feedObj) {
             }
         });
     }
+
+    if(btnUpdProfilePic) {
+        btnUpdProfilePic.addEventListener('click', e => {
+            frmProfileImg.imgs.click();
+        });
+    
+        frmProfileImg.imgs.addEventListener('change', e => {
+            if(e.target.files.length){
+                const fData = new FormData();
+                fData.append('profileImg', e.target.files[0]);
+                fetch('/user/profile', {
+                    method: 'POST',
+                    body: fData
+                })
+                .then(res => res.json())
+                .then(res => {
+                    if(res.result) {
+                        const gData = document.querySelector('#gData');
+                        const profileImgList = document.querySelectorAll('.profileimg');
+                        profileImgList.forEach(item => {
+                            item.src = `/static/img/profile/${gData.dataset.loginiuser}/${res.fileNm}`;
+                        });
+                        btnProfileImgModalClose.click();
+                    }
+                })
+            }
+        })
+        
+    };
 
     if(btnDelCurrentProfilePic) {
         btnDelCurrentProfilePic.addEventListener('click', e => {
