@@ -19,9 +19,13 @@
                             </a>
                         </div>
                         <div class="d-inline-flex me-3">
-                            <a href="/dm/index">
-                                <svg aria-label="다이렉트 메시지" class="_8-yf5 " color="#262626" fill="#262626" height="24" role="img" viewBox="0 0 24 24" width="24"><line fill="none" stroke="currentColor" stroke-linejoin="round" stroke-width="2" x1="22" x2="9.218" y1="3" y2="10.083"></line><polygon fill="none" points="11.698 20.334 22 3.001 2 3.001 9.218 10.084 11.698 20.334" stroke="currentColor" stroke-linejoin="round" stroke-width="2"></polygon></svg>
-                            </a>
+                            <span class="position-relative">                                
+                                <svg id="dmIcon" aria-label="다이렉트 메시지" class="_8-yf5 pointer" color="#262626" fill="#262626" height="24" role="img" viewBox="0 0 24 24" width="24"><line fill="none" stroke="currentColor" stroke-linejoin="round" stroke-width="2" x1="22" x2="9.218" y1="3" y2="10.083"></line><polygon fill="none" points="11.698 20.334 22 3.001 2 3.001 9.218 10.084 11.698 20.334" stroke="currentColor" stroke-linejoin="round" stroke-width="2"></polygon></svg>                                
+                                <span id="totalDmUnreadCntParent" class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger d-none">
+                                    <span id="totalDmUnreadCnt">0</span>
+                                    <span class="visually-hidden">unread messages</span>
+                                </span>
+                            </span>
                         </div>                    
                         <div class="d-inline-flex dropdown">
                             <a href="#" role="button" id="navDropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false" class="header_profile">

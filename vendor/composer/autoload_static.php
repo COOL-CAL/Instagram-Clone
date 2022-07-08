@@ -15,6 +15,14 @@ class ComposerStaticInit360d7a277eaa26c3c65e1d688e319546
     );
 
     public static $prefixLengthsPsr4 = array (
+        'w' => 
+        array (
+            'ws\\' => 3,
+        ),
+        'a' => 
+        array (
+            'application\\' => 12,
+        ),
         'S' => 
         array (
             'Symfony\\Polyfill\\Mbstring\\' => 26,
@@ -44,6 +52,14 @@ class ComposerStaticInit360d7a277eaa26c3c65e1d688e319546
     );
 
     public static $prefixDirsPsr4 = array (
+        'ws\\' => 
+        array (
+            0 => __DIR__ . '/../..' . '/ws',
+        ),
+        'application\\' => 
+        array (
+            0 => __DIR__ . '/../..' . '/application',
+        ),
         'Symfony\\Polyfill\\Mbstring\\' => 
         array (
             0 => __DIR__ . '/..' . '/symfony/polyfill-mbstring',
@@ -94,8 +110,8 @@ class ComposerStaticInit360d7a277eaa26c3c65e1d688e319546
         ),
         'Psr\\Http\\Message\\' => 
         array (
-            0 => __DIR__ . '/..' . '/psr/http-message/src',
-            1 => __DIR__ . '/..' . '/psr/http-factory/src',
+            0 => __DIR__ . '/..' . '/psr/http-factory/src',
+            1 => __DIR__ . '/..' . '/psr/http-message/src',
         ),
         'GuzzleHttp\\Psr7\\' => 
         array (
