@@ -70,7 +70,7 @@
                 <h5 class="modal-title text-center" tabindex="-1">Change Profile Pic</h5>
             </div>
             <div class="p-0 modal-body text-center" id="id-modal-body">
-                <button class="pointer text-primary bg-white pt-3" id="btnUpdCurrentProfilePic">Choose from library</button>
+                <button class="pointer text-primary bg-white pt-3" id="btnUpdProfilePic">Choose from library</button>
                 <hr>
                 <button class="pointer text-danger bg-white c_error-or-destructive" id="btnDelCurrentProfilePic">Remove current pic</button>
                 <hr>
